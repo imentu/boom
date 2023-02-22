@@ -16,7 +16,7 @@ interface ChecklistItem {
 
 export const api = {
   checklists: {
-    async getChecklistById(uuid: string): Promise<Checklist | null> {
+    async getChecklistDetailById(uuid: string): Promise<Checklist | null> {
       return (await axios.get(`/api/checklist/${uuid}`)).data
     }
   }

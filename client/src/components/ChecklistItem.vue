@@ -1,23 +1,39 @@
 <template>
   <div class="d-flex pa-4">
-    <v-checkbox-btn :model-value="props.data.checked" @click="props.data.toggleChecked" class="pe-2"></v-checkbox-btn>
+    <v-checkbox-btn :model-value="props.data.checked" class="pe-2"
+      @click="() => emitToggleChecked(props.data)"></v-checkbox-btn>
     <input type="text" :value="props.data.title">
-    <v-icon :icon="icon" v-if="props.data.subItems.length > 0" @click="props.data.toggleExpand" />
+    <v-icon :icon="expandIcon" v-if="props.data.subItems.length > 0" @click="() => emitToggleExpand(props.data)" />
+  </div>
+  <div style="padding-left: 8px;" v-if="props.data.expand">
+    <ChecklistItem :data="subItem" :key="subItem.id" v-for="subItem in props.data.subItems"
+      @toggle-checked="() => emitToggleChecked(subItem)" @toggle-expand="() => emitToggleExpand(subItem)" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { IChecklistItem } from '@/types/ICheckListItem'
-import { computed, reactive } from 'vue'
+import { computed } from 'vue'
+import { ChecklistItemProps } from './ChecklistItemProps';
 import { mdiChevronLeft, mdiChevronDown } from '@mdi/js';
-import { api } from '@/services/api'
 
-const props = defineProps<{ data: IChecklistItem }>()
-const icon = computed(() => props.data.expand ? mdiChevronDown : mdiChevronLeft)
+const props = defineProps<{ data: ChecklistItemProps }>()
 
-const data = await api.checklists.getChecklistById('c9ab2375-a2af-4b39-805f-668f20bb12e6')
-const checklist = reactive(data!)
-console.log(data);
+enum EventType {
+  ToggleChecked = 'toggle-checked',
+  ToggleExpand = 'toggle-expand'
+}
 
+interface Emits {
+  (e: EventType.ToggleChecked, target: ChecklistItemProps): void
+  (e: EventType.ToggleExpand, target: ChecklistItemProps): void
+}
+
+const emit = defineEmits<Emits>()
+
+const emitToggleChecked = (target: ChecklistItemProps) => emit(EventType.ToggleChecked, target)
+
+const emitToggleExpand = (target: ChecklistItemProps) => emit(EventType.ToggleExpand, target)
+
+const expandIcon = computed(() => props.data.expand ? mdiChevronDown : mdiChevronLeft)
 
 </script>

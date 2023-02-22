@@ -25,12 +25,20 @@ export default [
                 title: 'item-1-2',
                 checked: false,
                 expand: true,
-                subItems: []
+                subItems: [
+                  {
+                    id: 'h1180302-2d10-47b6-bc46-549077c738b0',
+                    title: 'item-1-2-1',
+                    checked: false,
+                    expand: true,
+                    subItems: []
+                  }
+                ]
               }
             ]
           }, {
             id: 'a77b6fa6-d572-4d1f-9363-62bbb571baaf',
-            title: 'item-1',
+            title: 'item-2',
             checked: false,
             expand: false,
             subItems: []
