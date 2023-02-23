@@ -1,20 +1,11 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="d-flex align-center text-center fill-height w-25">
-      <Suspense>
-        <Checklist />
-      </Suspense>
+        <Checklist checklist-id="c9ab2375-a2af-4b39-805f-668f20bb12e6" />
     </v-responsive>
   </v-container>
 </template>
 
 <script lang="ts" setup>
-import { useAppStore } from '@/store/app'
 import Checklist from './ChecklistDetail.vue';
-
-const app = useAppStore()
-
-console.log(app);
-
-
 </script>

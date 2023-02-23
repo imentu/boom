@@ -1,22 +1,22 @@
 <template>
   <div class="d-flex pa-4">
-    <v-checkbox-btn :model-value="props.data.checked" class="pe-2"
-      @click="() => emitToggleChecked(props.data)"></v-checkbox-btn>
+    <v-checkbox-btn :model-value="props.data.checked" class="pe-2"></v-checkbox-btn>
     <input type="text" :value="props.data.title">
-    <v-icon :icon="expandIcon" v-if="props.data.subItems.length > 0" @click="() => emitToggleExpand(props.data)" />
+    <v-icon :icon="expandIcon" v-if="props.data.subItems.length > 0"
+      @click="() => checklistDetail.toggleExpand(props.data)" />
   </div>
   <div style="padding-left: 8px;" v-if="props.data.expand">
-    <ChecklistItem :data="subItem" :key="subItem.id" v-for="subItem in props.data.subItems"
-      @toggle-checked="() => emitToggleChecked(subItem)" @toggle-expand="() => emitToggleExpand(subItem)" />
+    <ChecklistItem :data="subItem" :key="subItem.id" v-for="subItem in props.data.subItems" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { ChecklistItemProps } from './ChecklistItemProps';
+import { ChecklistItem as ChecklistItemDetail } from '../types/checklist/ChecklistItem';
 import { mdiChevronLeft, mdiChevronDown } from '@mdi/js';
+import { useChecklistDetailStore } from '@/store/ChecklistDetailStore';
 
-const props = defineProps<{ data: ChecklistItemProps }>()
+const props = defineProps<{ data: ChecklistItemDetail }>()
 
 enum EventType {
   ToggleChecked = 'toggle-checked',
@@ -24,16 +24,12 @@ enum EventType {
 }
 
 interface Emits {
-  (e: EventType.ToggleChecked, target: ChecklistItemProps): void
-  (e: EventType.ToggleExpand, target: ChecklistItemProps): void
+  (e: EventType.ToggleChecked, target: ChecklistItemDetail): void
+  (e: EventType.ToggleExpand, target: ChecklistItemDetail): void
 }
 
-const emit = defineEmits<Emits>()
-
-const emitToggleChecked = (target: ChecklistItemProps) => emit(EventType.ToggleChecked, target)
-
-const emitToggleExpand = (target: ChecklistItemProps) => emit(EventType.ToggleExpand, target)
-
 const expandIcon = computed(() => props.data.expand ? mdiChevronDown : mdiChevronLeft)
+
+const checklistDetail = useChecklistDetailStore()
 
 </script>

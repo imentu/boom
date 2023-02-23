@@ -1,7 +1,7 @@
-export interface ChecklistItemProps {
+export interface ChecklistItem {
   id: string,
   title: string,
   checked: boolean,
   expand: boolean,
-  subItems: ChecklistItemProps[]
+  subItems: ChecklistItem[]
 }
