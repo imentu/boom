@@ -1,8 +1,9 @@
 <template>
-  <v-app-bar flat>
-    <v-app-bar-title>
-      Essentials Preset
-    </v-app-bar-title>
+  <v-app-bar :elevation="2">
+    <template v-slot:prepend>
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+    </template>
+    <v-app-bar-title>MT</v-app-bar-title>
   </v-app-bar>
 </template>
 

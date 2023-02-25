@@ -3,7 +3,7 @@
     <div class="text-center" v-if="checklistDetail.loading">
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </div>
-    <div>
+    <div v-else>
       <p>{{ checklistDetail.id }}</p>
       <p>{{ checklistDetail.title }}</p>
       <ChecklistItem :data="item" :key="item.id" v-for="item in checklistDetail.items" />

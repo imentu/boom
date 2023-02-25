@@ -1,6 +1,7 @@
 <template>
   <div class="d-flex pa-4">
-    <v-checkbox-btn :model-value="props.data.checked" class="pe-2"></v-checkbox-btn>
+    <v-checkbox-btn :model-value="props.data.checked" class="pe-2"
+      @click="() => checklistDetail.toggleChecked(props.data)"></v-checkbox-btn>
     <input type="text" :value="props.data.title">
     <v-icon :icon="expandIcon" v-if="props.data.subItems.length > 0"
       @click="() => checklistDetail.toggleExpand(props.data)" />
