@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { ChecklistItem as ChecklistItemDetail } from '../types/checklist/ChecklistItem';
+import { IChecklistItem as ChecklistItemDetail } from '../types/Checklist';
 import { mdiChevronLeft, mdiChevronDown } from '@mdi/js';
 import { useChecklistDetailStore } from '@/store/ChecklistDetailStore';
 
