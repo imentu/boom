@@ -17,6 +17,7 @@
     "date-fns": "^2.29.3",
     "pinia": "^2.0.32",
     "pouchdb": "^8.0.1",
+    "pouchdb-find": "^8.0.1",
     "roboto-fontface": "^0.10.0",
     "uuid": "^9.0.0",
     "vue": "^3.2.47",
