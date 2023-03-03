@@ -15,7 +15,6 @@ import { useRoute } from 'vue-router'
 const routes = [
   { path: '/home', icon: mdiHomeOutline, name: 'Home' },
   { path: '/checklist', icon: mdiListBoxOutline, name: 'Checklist' },
-  { path: '/progress', icon: mdiBullseye, name: 'Progress' },
 ]
 
 const route = useRoute()

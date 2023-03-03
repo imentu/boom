@@ -1,10 +1,6 @@
-import differenceInDays from "date-fns/fp/differenceInDays"
-import isFuture from "date-fns/isFuture"
-
 export interface ITodoItem {
   _id: string | null
   _rev: string | null
-  $_type: string
   title: string
   checked: boolean
   startDate: Date | null
@@ -15,7 +11,6 @@ export interface ITodoItem {
 export class TodoItem implements ITodoItem {
   _id: string | null = null
   _rev: string | null = null
-  $_type: string = 'TodoItem'
   title: string
   checked: boolean = false
   startDate: Date | null = null

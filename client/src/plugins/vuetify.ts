@@ -10,11 +10,13 @@ import 'vuetify/styles'
 
 // Composables
 import { createVuetify } from 'vuetify'
+import { md3 } from 'vuetify/blueprints'
 import { aliases, mdi } from 'vuetify/iconsets/mdi-svg'
-import { mdiCheckboxBlankOutline, mdiChevronRight, mdiChevronDown} from '@mdi/js'
+import { mdiCheckboxBlankOutline, mdiChevronRight, mdiChevronDown } from '@mdi/js'
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
+  blueprint: md3,
   theme: {
     themes: {
       light: {

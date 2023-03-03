@@ -19,11 +19,6 @@ const routes = [
         name: 'Checklist',
         component: () => import('@/views/Checklist.vue'),
       },
-      {
-        path: 'progress',
-        name: 'Progress',
-        component: () => import('@/views/Progress.vue'),
-      }
     ],
   },
 ]

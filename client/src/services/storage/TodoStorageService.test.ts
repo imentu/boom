@@ -1,6 +1,5 @@
-import { StorageService } from '@/services/storage/StorageService'
+import { TodoStorageService } from '@/services/storage/TodoStorageService'
 import { TodoItem } from '@/types/TodoItem';
-import exp from 'constants';
 import * as PouchDB from 'pouchdb'
 import { describe, it, beforeEach, afterEach, expect, beforeAll } from "vitest";
 
@@ -13,11 +12,11 @@ describe('storage', () => {
   })
 
   let db: PouchDB.Database
-  let storageService: StorageService
+  let storageService: TodoStorageService
 
   beforeEach(() => {
     db = new MemoryPouchDB('boom_test')
-    storageService = new StorageService(db)
+    storageService = new TodoStorageService(db)
   })
 
   afterEach(async () => {

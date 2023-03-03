@@ -1,6 +1,7 @@
+import * as PouchDB from 'pouchdb'
 import { ITodoItem } from '@/types/TodoItem'
 
-export class StorageService {
+export class TodoStorageService {
   db: PouchDB.Database<{}>
 
   constructor(db: PouchDB.Database<{}>) {
@@ -24,7 +25,7 @@ export class StorageService {
   }
 
   public async getTodoItems(skip: number = 0, limit: number = 10) {
-    return await this.db.find({ selector: { $_type: 'TodoItem', 'title': { $exists: true } }, sort: [{ 'title': 'asc', }], skip, limit })
+    return await this.db.find({ selector: { 'title': { $exists: true } }, sort: [{ 'title': 'asc', }], skip, limit })
   }
 
 }
