@@ -1,16 +1,9 @@
-import { TodoStorageService } from '@/services/storage/TodoStorageService'
+import { TodoStorageService } from '@/services/storage/TodoStorageService';
 import { TodoItem } from '@/types/TodoItem';
-import * as PouchDB from 'pouchdb'
-import { describe, it, beforeEach, afterEach, expect, beforeAll } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import MemoryPouchDB from './db/BrowserPouchDB';
 
 describe('storage', () => {
-  const MemoryPouchDB = PouchDB.defaults({ adapter: 'memory' })
-
-  beforeAll(() => {
-    PouchDB.plugin(require('pouchdb-adapter-memory'))
-    PouchDB.plugin(require('pouchdb-find'))
-  })
-
   let db: PouchDB.Database
   let storageService: TodoStorageService
 
@@ -64,8 +57,8 @@ describe('storage', () => {
 
       const items = await storageService.getTodoItems(1, 2)
 
-      expect((items.docs[0] as TodoItem).title).eq('i2')
-      expect((items.docs[1] as TodoItem).title).eq('i3')
+      expect((items[0] as TodoItem).title).eq('i2')
+      expect((items[1] as TodoItem).title).eq('i3')
     })
   })
 

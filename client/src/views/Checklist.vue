@@ -1,11 +1,34 @@
 <template>
   <v-list density="compact">
-    <v-list-item v-for="item in todoItems.data" :key="item.title" lines="two">
+    <v-list-item v-for="item in todos" :key="item.title" lines="two">
+      <template v-slot:prepend>
+        <v-checkbox-btn :model-value="item.checked" class="pe-2" @click="() => toggleChecked(item)"></v-checkbox-btn>
+      </template>
       <template v-slot:title>
         <h4>{{ item.title }}</h4>
       </template>
       <template v-slot:subtitle>
         {{ item.days }} days
+      </template>
+      <template v-slot:append>
+        <v-progress-circular :model-value="(item.current / item.total) * 100" color="primary" :size="30"
+          v-if="item.subItems.length != 0"></v-progress-circular>
+      </template>
+    </v-list-item>
+  </v-list>
+
+  <div style="margin-top: 16px;"></div>
+
+  <v-list density="compact" v-if="dones.length != 0">
+    <v-list-subheader>
+      Done
+    </v-list-subheader>
+    <v-list-item v-for="item in dones" :key="item.title" lines="two">
+      <template v-slot:prepend>
+        <v-checkbox-btn :model-value="item.checked" class="pe-2" @click="() => toggleChecked(item)"></v-checkbox-btn>
+      </template>
+      <template v-slot:title>
+        <h4>{{ item.title }}</h4>
       </template>
       <template v-slot:append>
         <v-progress-circular :model-value="(item.current / item.total) * 100" color="primary" :size="30"
@@ -43,21 +66,36 @@
 </template>
 
 <script lang="ts" setup>
-import StorageService from '@/services/storage/forbrowser.js'
-import { TodoItem } from '@/types/TodoItem';
+import StorageService from '@/services/storage/index.js'
+import { ITodoItem, TodoItem } from '@/types/TodoItem';
 import { mdiPlus } from '@mdi/js';
+import { computed } from 'vue';
 import { reactive } from 'vue';
 import { ref } from 'vue';
 
 const showDialog = ref(false)
 const newTodoItem = reactive({ title: '', startDate: null })
-const todoItems = reactive({ data: [] })
-todoItems.data = [...(await StorageService.todoStorageService.getTodoItems()).docs]
+const todoItems = reactive<{ data: ITodoItem[] }>({ data: [] })
+const todos = computed(() => todoItems.data.filter(x => !x.checked))
+const dones = computed(() => todoItems.data.filter(x => x.checked))
+
+const reloadItems = async () => {
+  todoItems.data = [...await StorageService.todoStorageService.getTodoItems()]
+}
+await reloadItems()
 
 const createNewTodoItem = async () => {
   const item = new TodoItem(newTodoItem.title)
   await StorageService.todoStorageService.saveTodoItem(item)
-  todoItems.data = [...(await StorageService.todoStorageService.getTodoItems()).docs]
+  await reloadItems()
+}
+
+
+
+const toggleChecked = async (item: ITodoItem) => {
+  item.checked = !item.checked
+  await StorageService.todoStorageService.saveTodoItem(item)
+  await reloadItems()
 }
 
 </script>
