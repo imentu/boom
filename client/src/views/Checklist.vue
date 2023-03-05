@@ -1,41 +1,14 @@
 <template>
-  <v-list density="compact">
-    <v-list-item v-for="item in todos" :key="item.title" lines="two">
-      <template v-slot:prepend>
-        <v-checkbox-btn :model-value="item.checked" class="pe-2" @click="() => toggleChecked(item)"></v-checkbox-btn>
-      </template>
-      <template v-slot:title>
-        <h4>{{ item.title }}</h4>
-      </template>
-      <template v-slot:subtitle>
-        {{ item.days }} days
-      </template>
-      <template v-slot:append>
-        <v-progress-circular :model-value="(item.current / item.total) * 100" color="primary" :size="30"
-          v-if="item.subItems.length != 0"></v-progress-circular>
-      </template>
-    </v-list-item>
-  </v-list>
+  <div>
+    <TodoItemList :list="todoItems.data" :toggleChecked="toggleChecked" />
+  </div>
 
   <div style="margin-top: 16px;"></div>
 
-  <v-list density="compact" v-if="dones.length != 0">
-    <v-list-subheader>
-      Done
-    </v-list-subheader>
-    <v-list-item v-for="item in dones" :key="item.title" lines="two">
-      <template v-slot:prepend>
-        <v-checkbox-btn :model-value="item.checked" class="pe-2" @click="() => toggleChecked(item)"></v-checkbox-btn>
-      </template>
-      <template v-slot:title>
-        <h4>{{ item.title }}</h4>
-      </template>
-      <template v-slot:append>
-        <v-progress-circular :model-value="(item.current / item.total) * 100" color="primary" :size="30"
-          v-if="item.subItems.length != 0"></v-progress-circular>
-      </template>
-    </v-list-item>
-  </v-list>
+  <div v-if="dones.length > 0">
+    <h4>done</h4>
+    <TodoItemList :list="dones" :toggleChecked="toggleChecked" />
+  </div>
 
   <v-btn class="add-btn" color="primary" :icon="mdiPlus" @click="showDialog = true"></v-btn>
   <v-dialog v-model="showDialog" persistent>
@@ -66,12 +39,11 @@
 </template>
 
 <script lang="ts" setup>
-import StorageService from '@/services/storage/index.js'
+import TodoItemList from '@/components/TodoItem/TodoItemList.vue';
+import StorageService from '@/services/storage/index.js';
 import { ITodoItem, TodoItem } from '@/types/TodoItem';
 import { mdiPlus } from '@mdi/js';
-import { computed } from 'vue';
-import { reactive } from 'vue';
-import { ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 
 const showDialog = ref(false)
 const newTodoItem = reactive({ title: '', startDate: null })
@@ -81,6 +53,10 @@ const dones = computed(() => todoItems.data.filter(x => x.checked))
 
 const reloadItems = async () => {
   todoItems.data = [...await StorageService.todoStorageService.getTodoItems()]
+
+  todoItems.data.forEach(element => {
+    element.subItems = []
+  });
 }
 await reloadItems()
 

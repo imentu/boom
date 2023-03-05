@@ -15,7 +15,7 @@ import { registerPlugins } from '@/plugins'
 
 import { worker } from './mocks/browser.js'
 if (process.env.NODE_ENV === 'development') {
-  worker.start()
+  // worker.start()
 }
 
 const app = createApp(App)
